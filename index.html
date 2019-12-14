@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <div id="main-container">
+      <div id="clock-container">
+                <div id="calendar"></div>
+        <div id="clock">00:00</div>
+      </div>
+
+      <div id="greeting">
+        <span id="goodSomething">Good Day, </span>
+        <form id="form"><input id="input" type="text"></input></form>
+        <div id="usrname"></div>
+      </div>
+    </div>
+    
+
+    <div id="weather">
+      <div class="weather-icon" id="clear" style="grid-area:icon;">
+        <i class="fas fa-sun"></i>
+      </div>
+      <div class="weather-icon" id="few-clouds" style="grid-area:icon;">
+        <i class="fas fa-cloud-sun"></i>
+      </div>
+      <div class="weather-icon" id="clouds" style="grid-area:icon;">
+        <i class="fas fa-cloud"></i>
+      </div>
+      <div class="weather-icon" id="shower" style="grid-area:icon;">
+        <i class="fas fa-cloud-showers-heavy"></i>
+      </div>
+      <div class="weather-icon" id="rain" style="grid-area:icon;">
+        <i class="fas fa-umbrella"></i>
+      </div>
+      <div class="weather-icon" id="thunderstorm" style="grid-area:icon;">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <div class="weather-icon" id="snow" style="grid-area:icon;">
+        <i class="far fa-snowflake"></i>
+      </div>
+      <div class="weather-icon" id="mist" style="grid-area:icon;">
+        <i class="fas fa-smog"></i>
+      </div>
+      <div id="temperature" style="grid-area:temp;">100°</div>
+      <div id="town" style="grid-area:town;">home</div>
+    </div>
+
+    <div id="todo-container">
+
+    </div>
+
+    <script src="clock.js" async defer></script>
+    <script src="geoloc.js" async defer></script>
+    <script src="usrname.js" async defer></script>
+
+    <script
+      src="https://kit.fontawesome.com/3a52c9b328.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
