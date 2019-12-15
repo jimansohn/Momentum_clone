@@ -127,7 +127,7 @@ const loadUpdateWeather = async (lat, long) => {
 const weatherInit = async () => {
   updateWeatherIcon(800);
   loadLocationWeatherInfo();
-  setInterval(loadLocationWeatherInfo, 600000);
+  setInterval(loadLocationWeatherInfo, 60000);
 };
 
 weatherInit();

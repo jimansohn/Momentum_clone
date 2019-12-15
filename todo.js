@@ -20,7 +20,8 @@ const displayTodoItem = (id, text) => {
   todoDiv.innerHTML = text;
   todoDiv.style.cssText = "text-align:right";
   if (todoDiv.id.charAt(0) === "C") {
-    todoDiv.style.cssText = "text-align:right; text-decoration: line-through;";
+    todoDiv.style.cssText =
+      "text-align:right; text-decoration: line-through; overflow-wrap: break-word;";
   }
 
   todoDiv.addEventListener("click", handleTodoItemClick);
