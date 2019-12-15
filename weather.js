@@ -20,28 +20,18 @@ const locationInfo = {
   longitude: ""
 };
 
-const weatherInfo = {
-  weatherID: 0,
-  weather: "",
-  temp: 0,
-  country: "",
-  town: "",
-  sunrise: 0,
-  sunset: 0
-};
-
-const loadLocationInfo = async () => {
+const loadLocationWeatherInfo = async () => {
   console.log("loading location information");
   const loadedLocation = localStorage.getItem(LOCINFO_LS_KEY);
   if (loadedLocation === null) {
     console.log("no saved location info found. asking...");
-    await askForlatlong();
+    askForlatlong();
   } else {
     const parsedLocation = JSON.parse(loadedLocation);
-    locationInfo.longitude = parsedLocation.longitude;
-    locationInfo.latitude = parsedLocation.latitude;
-    locationInfo.neighborhood = parsedLocation.neighborhood;
-    console.log("location information loaded");
+    console.log(
+      `location information loaded lat: ${parsedLocation.latitude}, long: ${parsedLocation.longitude}`
+    );
+    loadUpdateWeather(parsedLocation.latitude, parsedLocation.longitude);
   }
 };
 
@@ -54,12 +44,15 @@ const askForlatlong = async () => {
 };
 
 const latLongAcquireSuccess = async acquiredLoc => {
-  console.log("latitude and longitude acquired. parsing");
+  console.log(
+    `location information fetched. lat: ${acquiredLoc.coords.latitude}, long: ${acquiredLoc.coords.longitude}`
+  );
   locationInfo.longitude = acquiredLoc.coords.longitude;
   locationInfo.latitude = acquiredLoc.coords.latitude;
   const jsonLoc = JSON.stringify(locationInfo);
   console.log(`saving to local storage: ${jsonLoc} as ${LOCINFO_LS_KEY}`);
   localStorage.setItem(LOCINFO_LS_KEY, jsonLoc);
+  await loadUpdateWeather(locationInfo.latitude, locationInfo.longitude);
 };
 
 const latLongAcquireFail = () => {
@@ -73,15 +66,17 @@ const getWeather = async (lat, long) => {
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
   );
   const json = await response.json();
-  console.log("fetching weather complete");
-  weatherInfo.weatherID = json.weather[0].id;
-  weatherInfo.weather = json.weather[0].main;
-  weatherInfo.temp = json.main.temp;
-  weatherInfo.country = json.sys.country;
-  weatherInfo.town = json.name;
-  weatherInfo.sunrise = json.sys.sunrise * 1000;
-  weatherInfo.sunset = json.sys.sunset * 1000;
-  console.log(JSON.stringify(weatherInfo));
+  console.log("fetching weather complete", json);
+  return {
+    weatherID: json.weather[0].id,
+    weather: json.weather[0].main,
+    temp: json.main.temp,
+    country: json.sys.country,
+    town: json.name,
+    sunrise: json.sys.sunrise * 1000,
+    sunset: json.sys.sunset * 1000,
+    icon: json.weather[0].icon
+  };
 };
 
 const kelvin2F = kelvin => {
@@ -90,10 +85,6 @@ const kelvin2F = kelvin => {
 
 const kelvin2C = kelvin => {
   return Math.round(kelvin - 273.15);
-};
-
-const weatherInit = () => {
-  document.getElementById("clear").style.display = "block";
 };
 
 const updateTemp = (kelvin, country) => {
@@ -108,7 +99,7 @@ const updateTemp = (kelvin, country) => {
 };
 
 const updateTown = town => {
-  console.log("updating location");
+  console.log("updating town name");
   document.getElementById("town").innerText = town;
 };
 
@@ -120,6 +111,7 @@ const hideAllWeatherIcon = () => {
   );
 };
 const updateWeatherIcon = weatherCode => {
+  console.log("updating weather icon");
   hideAllWeatherIcon();
   if (weatherCode === 800) {
     document.getElementById("clear").style.display = "block";
@@ -134,7 +126,7 @@ const updateWeatherIcon = weatherCode => {
   } else if (Math.floor(weatherCode / 700) === 1) {
     document.getElementById("mist").style.display = "block";
   } else if (weatherCode >= 500 && weatherCode < 511) {
-    document.getElementById("showers-rain").style.display = "block";
+    document.getElementById("shower").style.display = "block";
   } else if (weatherCode <= 531 && weatherCode > 511) {
     document.getElementById("rain").style.display = "block";
   } else if (Math.floor(weatherCode / 700) === 1) {
@@ -144,13 +136,17 @@ const updateWeatherIcon = weatherCode => {
   }
 };
 
-const geolocInit = async () => {
-  weatherInit();
-  await loadLocationInfo();
-  await getWeather(locationInfo.latitude, locationInfo.longitude);
-  updateTemp(weatherInfo.temp, weatherInfo.country);
-  updateTown(weatherInfo.town);
-  updateWeatherIcon(weatherInfo.weatherID);
+const loadUpdateWeather = async (lat, long) => {
+  console.log(`loading weather information at lat: ${lat}, long: ${long}`);
+  const weather = await getWeather(lat, long);
+  updateTemp(weather.temp, weather.country);
+  updateTown(weather.town);
+  updateWeatherIcon(weather.weatherID);
+};
+const weatherInit = async () => {
+  updateWeatherIcon(800);
+  loadLocationWeatherInfo();
+  setInterval(loadLocationWeatherInfo, 600000);
 };
 
-geolocInit();
+weatherInit();

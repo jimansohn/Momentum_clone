@@ -12,6 +12,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -20,9 +21,11 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+
+    <div id="bg"></div>
     <div id="main-container">
       <div id="clock-container">
-                <div id="calendar"></div>
+        <div id="calendar"></div>
         <div id="clock">00:00</div>
       </div>
 
@@ -32,9 +35,10 @@
         <div id="usrname"></div>
       </div>
     </div>
+
     
 
-    <div id="weather">
+    <div id="weather-container">
       <div class="weather-icon" id="clear" style="grid-area:icon;">
         <i class="fas fa-sun"></i>
       </div>
@@ -64,12 +68,17 @@
     </div>
 
     <div id="todo-container">
-
+      <div id="todo-list"></div>
+      <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="What's your plan today?" autocomplete="off"></input>
+      </form>
     </div>
 
+    <script src="greeting.js" async defer></script>
+    <script src="weather.js" async defer></script>
     <script src="clock.js" async defer></script>
-    <script src="geoloc.js" async defer></script>
-    <script src="usrname.js" async defer></script>
+    <script src="todo.js" async defer></script>
+
 
     <script
       src="https://kit.fontawesome.com/3a52c9b328.js"
