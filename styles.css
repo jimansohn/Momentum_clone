@@ -111,15 +111,14 @@ input::placeholder {
   flex-direction: column;
   justify-content: flex-end;
   font-size: 24px;
-}
 
-#todo-container:hover {
   background-image: linear-gradient(
     to left,
     rgba(0, 0, 0, 0.5),
     rgba(255, 255, 255, 0)
   );
 }
+
 #todo-list {
   display: flex;
   flex-direction: column;
