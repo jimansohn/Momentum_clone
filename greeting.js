@@ -34,7 +34,6 @@ const updateGreetingMsg = () => {
 
 const usrnameInit = () => {
   const loadedName = localStorage.getItem(USRNAME_LS_KEY);
-  console.log(loadedName);
   if (loadedName !== null) {
     usrname.innerText = loadedName;
     prompt.style.display = "none";

@@ -45,9 +45,7 @@ const removeTodoItem = divObj => {
 
 const handleTodoSubmit = event => {
   event.preventDefault();
-  console.log("please");
   const input = todoInput.value;
-  console.log(input);
   addTodoItem(input);
   todoInput.value = "";
 };
